@@ -75,8 +75,11 @@ def _resolver_resolve_to_name(resolver, path):
                 elif isinstance(pattern, URLResolver):
                     name = _resolver_resolve_to_name(pattern, new_path)
             except Resolver404 as e:
-                tried.extend([(get_pattern(pattern) + '   ' + t) for t in
-                              e.args[0]['tried']])
+                try:
+                    tried.extend([(get_pattern(pattern) + '   ' + t) for t in
+                                  e.args[0]['tried']])
+                except:
+                    pass #TODO: Check why this is breaking unmatched paths.
             else:
                 if name:
                     return name
